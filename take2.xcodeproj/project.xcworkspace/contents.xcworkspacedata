@@ -2,6 +2,18 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../take2.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../tinyxml2/tinyxml2.h">
+   </FileRef>
+   <FileRef
+      location = "group:../take2.hpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../dot.cpp/NAD_FGDC_DOT.xml">
+   </FileRef>
+   <FileRef
       location = "self:take2.xcodeproj">
    </FileRef>
 </Workspace>
