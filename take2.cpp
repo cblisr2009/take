@@ -3,7 +3,7 @@
 //  
 //
 //  Created by Cortney Bramlett on 2/13/20.
-
+//
 
 #include "take2.hpp"
 #include "tinyxml2.h"
@@ -14,46 +14,51 @@ using namespace std;
 
 int main(int argc, const char ** argv)
 {
-    XMLDocument doc;
-    doc.LoadFile("/Users/cortneybramlett/Downloads/NAD_r3_revised_ASCII/NAD_FGDC_DOT.xml");
+    XMLDocument *doc = new XMLDocument();
+    doc->LoadFile("NAD_FGDC_DOT.xml");
     
     //to check that the file loaded correctly
-    if(doc.ErrorID() == 0)
+    if(doc->ErrorID() == 0)
     {
         //to create a root node to hold all single elements of the doc
-        XMLNode * pRoot = doc.NewElement("Root");
-        
+        XMLNode * pRoot = doc->NewElement("Root");
+
         //to attach the element to the xmldoc
-        doc.InsertFirstChild(pRoot);
+        doc->InsertFirstChild(pRoot);
        if( NULL != pRoot )
        {
        //create another element
         XMLElement * pStatesElement = pRoot->FirstChildElement("States");
-           
-        if( NULL != "States" )
-        {
-            XMLElement * pStateElement = pStatesElement->FirstChildElement("State");
-            while( pStateElement )
+
+            
+           if( NULL != pStatesElement )
             {
-                XMLElement *pCitiesElement = pStateElement->FirstChildElement
-                ("Cities");
+                XMLElement * pStateElement = pStatesElement->FirstChildElement("States");
+                XMLElement * pStatesElement = pStateElement->NextSiblingElement("State");
+                cout << pStateElement->GetText();
                 
-                if( NULL != pCitiesElement )
+                
+                while( pStateElement )
                 {
-                    cout << pCitiesElement->GetText();
+                    XMLElement *pPostalElement = pStateElement->NextSiblingElement("Postal");
+                    cout << pPostalElement->GetText();
+                    
+                    if( NULL != pPostalElement )
+                    {
+                        cout << pPostalElement->GetText();
+                    }
+                    cout << std::endl;
+                    
+                    pStateElement = pStateElement->NextSiblingElement("State");
                 }
-                XMLElement *pCityElement = pCitiesElement->FirstChildElement("City");
-                
-                if( NULL != pCityElement )
-                {
-                    cout << " " << pCityElement->GetText();
-                }
-                cout << std::endl;
-                
-                pStateElement = pStateElement->NextSiblingElement( "State");
-            }
-        }
+            
+
+     }
+
+   }
+    doc->Print();
+
+
+    return 0;
+}
     }
-        return 0;
-}
-}
